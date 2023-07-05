@@ -1,2 +1,1 @@
-#!/bin/bash
-alx-system engineering-devops
+this is not fun
