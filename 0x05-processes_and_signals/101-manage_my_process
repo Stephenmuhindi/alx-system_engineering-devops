@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+# run background
+
+error_func()
+{
+	echo "Usage: manage_my_process {start|stop|restart}"
+	exit 1
+}
+
+start_func()
+{
+	./manage_my_process &
+	echo "$!" > /var/run/my_process.pid
+	echo "manage_my_process started"
+}
+
+stop_func()
+{
+	kill "$(cat /var/run/my_process.pid)"
+	rm -rf /var/run/my_process.pid
+	echo "manage_my_process stopped"
+}
+
+restart_f()
+{
+	kill "$(cat /var/run/my_process.pid)"
+	rm -rf /var/run/my_process.pid
+	./manage_my_process &
+	echo "$!" > /var/run/my_process.pid
+	echo "manage_my_process restarted"
+}
+
+if [ $# -ne 1 ]; then
+	error_f
+fi
+
+while [ $# -gt 0 ]
+do
+	opt="$2"
+	shift;
+	case $opt in
+		start)
+			start_f
+			;;
+
+		stop)
+			stop_f
+			;;
+
+		restart)
+			restart_f
+			;;
+		*)
+			error_f
+			;;
+	esac
+done
