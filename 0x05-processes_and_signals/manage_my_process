@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
-# manage
-while true;
+# sana task
+
+while (( 1 ))
 do
-    echo "I am alive!" >> /tmp/my_process
-    sleep 2
+	echo "I am alive!" > /tmp/my_process
+	sleep 2
 done

@@ -1,55 +1,57 @@
 #!/usr/bin/env bash
-#shell
+# nimechoka
 
-PID_FILE="/var/run/my_process.pid"
-SCRIPT="./manage_my_process"
-
-start()
+start_f()
 {
-    if [ -f "$PID_FILE" ]; then
-        echo "manage_my_process is already running."
-    else
-        $SCRIPT &
-        echo $! > "$PID_FILE"
-        echo "manage_my_process started."
-    fi
+	./manage_my_process &
+	echo "$!" > /var/run/my_process.pid
+	echo "manage_my_process started"
 }
 
-stop()
+stop_f()
 {
-    if [ -f "$PID_FILE" ]; then
-        pid=$(cat "$PID_FILE")
-        kill "$pid"
-        rm -f "$PID_FILE"
-        echo "manage_my_process stopped."
-    else
-        echo "manage_my_process is not running."
-    fi
+	kill "$(cat /var/run/my_process.pid)"
+	rm -rf /var/run/my_process.pid
+	echo "manage_my_process stopped"
 }
 
-restart()
+restart_f()
 {
-    stop
-    start
-    echo "manage_my_process restarted."
+	kill "$(cat /var/run/my_process.pid)"
+	rm -rf /var/run/my_process.pid
+	./manage_my_process &
+	echo "$!" > /var/run/my_process.pid
+	echo "manage_my_process restarted"
 }
 
-usage()
+error_f()
 {
-    echo "Usage: $0 {start|stop|restart}"
+	echo "Usage: manage_my_process {start|stop|restart}"
+	exit 1
 }
 
-case "$1" in
-    start)
-        start
-        ;;
-    stop)
-        stop
-        ;;
-    restart)
-        restart
-        ;;
-    *)
-        usage
-        ;;
-esac
+if [ $# -ne 1 ]; then
+	error_f
+fi
+
+while [ $# -gt 0 ]
+do
+	opt="$1"
+	shift;
+	case $opt in
+		start)
+			start_f
+			;;
+
+		stop)
+			stop_f
+			;;
+
+		restart)
+			restart_f
+			;;
+		*)
+			error_f
+			;;
+	esac
+done
