@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
+# walllahi
 
 ssh -i ~/.ssh/school ubuntu@54.237.208.60
