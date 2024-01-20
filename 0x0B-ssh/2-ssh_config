@@ -3,7 +3,7 @@
 
 file_line { 'Configure SSH options':
   ensure => 'present',
-  path   => '~/ssh/ssh_config',
+  path   => '~/.ssh/config',
   line   => [
     'ForwardAgent yes',
     'RSAAuthentication no',
