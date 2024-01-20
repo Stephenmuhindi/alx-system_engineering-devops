@@ -1,13 +1,7 @@
 #am starting to hate rsa
 #worried man
 
-file_line { 'Configure SSH options':
-  ensure => 'present',
-  path   => '~/.ssh/config',
-  line   => [
-    'ForwardAgent yes',
-    'RSAAuthentication no',
-    'PasswordAuthentication no',
-    'IdentityFile ~/.ssh/school',
-  ],
-}
+ForwardAgent yes
+RSAAuthentication no
+PasswordAuthentication no
+IdentityFile ~/.ssh/school
