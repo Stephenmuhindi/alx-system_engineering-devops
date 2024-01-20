@@ -1,12 +1,13 @@
-#muhuhuhaha
+#am starting to hate rsa
+#worried man
 
-file_line { 'Turn off passwd auth':
+file_line { 'Configure SSH options':
   ensure => 'present',
   path   => '~/ssh/ssh_config',
-  line   => '    PasswordAuthentication no',
-  }
-file_line { 'Declare identity file':
-  ensure => 'present',
-  path   => '~/ssh/ssh_config',
-  line   => '    IdentityFile ~/.ssh/school',
-  }
+  line   => [
+    'ForwardAgent yes',
+    'RSAAuthentication no',
+    'PasswordAuthentication no',
+    'IdentityFile ~/.ssh/school',
+  ],
+}
