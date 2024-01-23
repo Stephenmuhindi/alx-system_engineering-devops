@@ -1,5 +1,4 @@
-#!/usr/bin/env bash
-# Just as you did before, we’d like you to install and configure an Nginx server using Puppet instead of Bash
+# install and configure an Nginx server using Puppet instead of Bash
 
 package { 'nginx':
   ensure => installed,
