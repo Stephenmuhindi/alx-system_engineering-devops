@@ -1,31 +1,16 @@
 #!/usr/bin/env bash
 #The redirection must be a “301 Moved Permanently”
 
-# Update package list
 sudo apt-get update -y
-
-# Install Nginx
 sudo apt-get install -y nginx
-
-# Create a simple "Hello World!" index.html file
-echo "Hello World!" | sudo tee /var/www/html/index.html
-
-# Set up a redirection in the Nginx default configuration
-sudo sed -i '53r /dev/stdin' /etc/nginx/sites-enabled/default <<< "
-        location /redirect_me {
-            return 301 https://youtube.com/shorts/qrt7PMcsQms?si=JkPXx59ExZDm7en1;
+sudo echo "Hello World!" | sudo tee /var/www/html/index.html
+sudo sed -i '53r /dev/stdin' /etc/nginx/sites-enabled/default <<< "        location /redirect_me {
+                 return 301 https://youtube.com/shorts/qrt7PMcsQms?si=JkPXx59ExZDm7en1;
         }"
-
-# Create a custom 404 page
-echo "Ceci n'est pas une page" | sudo tee /var/www/html/custom_404.html
-
-# Configure Nginx to use the custom 404 page
-sudo sed -i '53r /dev/stdin' /etc/nginx/sites-enabled/default <<< "
-        error_page 404 /custom_404.html;
+sudo echo "Ceci n'est pas une page" | sudo tee /var/www/html/custom_404.html
+sudo sed -i '53r /dev/stdin' /etc/nginx/sites-enabled/default <<< "        error_page 404 /custom_404.html;
         location = /custom_404.html {
-            root /var/www/html;
-            internal;
+                 root /var/www/html;
+                 internal;
         }"
-
-# Restart Nginx to apply the changes
 sudo service nginx restart
