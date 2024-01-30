@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# walllahi
+
+ssh -i ~/.ssh/school ubuntu@100.26.255.202
