@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-# changes permission nginx.conf,stop Apache,
-	mod to listen on 8080,start nginx under user.
+# number 1 in  7 lines or less
 sudo chmod 777 /etc/nginx/nginx.conf
 sudo pkill apache2
 sudo sed -i 's/80/8080/g' /etc/nginx/sites-enabled/default
