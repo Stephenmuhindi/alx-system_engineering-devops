@@ -1,36 +1,4 @@
-#!/bin/bash
-
-# Check if password argument is provided
-if [ -z "$1" ]; then
-    echo "Usage: $0 <mysql_password>"
-    exit 1
-fi
-
-# Define MySQL dump file name
-mysql_dump_file="backup.sql"
-
-# Generate MySQL dump
-mysqldump -u root -p"$1" --all-databases > "$mysql_dump_file"
-
-# Check if mysqldump was successful
-if [ $? -ne 0 ]; then
-    echo "MySQL dump failed. Exiting."
-    exit 1
-fi
-
-# Define archive name format: day-month-year.tar.gz
-archive_name="$(date +'%d-%m-%Y').tar.gz"
-
-# Create compressed archive
-tar -czf "$archive_name" "$mysql_dump_file"
-
-# Check if tar compression was successful
-if [ $? -ne 0 ]; then
-    echo "Compression failed. Exiting."
-    exit 1
-fi
-
-# Remove MySQL dump file
-rm "$mysql_dump_file"
-
-echo "Backup completed successfully."
+#!/usr/bin/env bash
+# Docs
+sudo mysqldump --password="$1" --user=root --all-databases > backup.sql
+tar -cvzf "$(date +"%d-%m-%Y").tar.gz" backup.sql
