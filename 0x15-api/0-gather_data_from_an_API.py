@@ -1,36 +1,27 @@
 #!/usr/bin/python3
-
 """
 Gather data from an API
 """
-
-from requests import get
-from sys import argv
+import requests
+import sys
 
 
 if __name__ == "__main__":
-    response = get('https://jsonplaceholder.typicode.com/todos/')
-    data = response.json()
-    completed = 0
-    total = 0
+    user_id = sys.argv[1]
+    url_str = 'https://jsonplaceholder.typicode.com/'
+    user_str = '{}users/{}'.format(url_str, user_id)
+    todos_str = '{}todos?userId={}'.format(url_str, user_id)
+    employee_str = "Employee {} is done with tasks"
+
+    res = requests.get(user_str)
+    print(employee_str.format(res.json().get('name')), end="")
+
+    res = requests.get(todos_str)
     tasks = []
-    response2 = get('https://jsonplaceholder.typicode.com/users')
-    data2 = response2.json()
+    for task in res.json():
+        if task.get('completed') is True:
+            tasks.append(task)
 
-    for i in data2:
-        if i.get('id') == int(argv[1]):
-            employee = i.get('name')
-
-    for i in data:
-        if i.get('userId') == int(argv[1]):
-            total += 1
-
-            if i.get('completed') is True:
-                completed += 1
-                tasks.append(i.get('title'))
-
-    print("Employee {} is done with tasks({}/{}):".format(employee, completed,
-                                                          total))
-
-    for i in tasks:
-        print("\t {}".format(i))
+    print("({}/{}):".format(len(tasks), len(res.json())))
+    for task in tasks:
+        print("\t {}".format(task.get("title")))
